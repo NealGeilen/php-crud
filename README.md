@@ -3,7 +3,7 @@
 Automatic Crud with uses Bootstrap and PDO
 
 
-##Instalation
+## Instalation
 
 ```
 composer require nealg/crud
