@@ -1,0 +1,20 @@
+{
+  "name": "ng/crud",
+  "description": "automatic crud with PDO",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Neal Geilen",
+      "email": "NealGeilen@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Crud\\": "src/"
+    }
+  },
+  "require": {
+    "php": "^7"
+  }
+}
