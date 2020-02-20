@@ -1,17 +1,18 @@
 # Crud
 
-Automatic Crud with uses Bootstrap and PDO
+Automatic Crud which uses Bootstrap and PDO
 
 
 ## Instalation
-
+composer package
 ```
 composer require nealg/crud
 ```
-Or add
+Or add 
 ```
 "composer require nealg/crud": "dev-master"
 ```
+To your `composer.json` file.
 
 ## Setup
 
@@ -36,6 +37,61 @@ echo $Crud;
 ```
 
 ## Options
+
+### Crud class
+
+```
+/**
+* Add field to crud
+* @param Field add a field to the crud
+*/
+$Crud->addField();
+
+/**
+* Set default values for records. 
+* Only records with default values will show up, and new records will have these default values
+*
+* @param string column name
+* @param mixed value of the column 
+*/
+$Crud->addDefaultValue(string, mixed);
+
+/**
+* Add a GET parameter to the url. These parameters will be used when the application redirects.
+* @param string key of GET parameter
+* @param string|int value of GET parameter
+*/
+$Crud->addParam(string, string|int);
+
+/**
+* Control if the user is allowed to delete all records.
+* Default = true
+* @param bool Is user allowed to delete?
+*/
+$Crud->setCanDelete(bool);
+
+/**
+* Control if the user is allowed to edit all records.
+* Default = true
+* @param bool Is user allowed to delete?
+*/
+$Crud->setCanEdit(bool);
+
+/**
+* Control if the user is allowed to edit all records.
+* Default = true
+* @param bool Is user allowed to delete?
+*/
+$Crud->setCanInsert(bool);
+
+/**
+* Css element id. Will be placed at the end of every url redirect. 
+* In this way the user will always see the Crud. 
+* @param string
+*/
+$Crud->setCssId(string);
+```
+
 ## License
 
 MIT License
