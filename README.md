@@ -5,18 +5,18 @@ Automatic Crud which uses Bootstrap and PDO
 
 ## Instalation
 composer package
-```
+```sh
 composer require nealg/crud
 ```
 Or add 
-```
+```json
 "composer require nealg/crud": "dev-master"
 ```
 To your `composer.json` file.
 
 ## Setup
 
-```
+```php
 <?php
 use Crud\Crud;
 use Crud\Fields\Field;
@@ -40,7 +40,7 @@ echo $Crud;
 
 ### Crud class
 
-```
+```php
 /**
 * Add field to crud
 * @param Field add a field to the crud
