@@ -1,7 +1,7 @@
 {
   "name": "ng/crud",
   "description": "automatic crud with PDO",
-  "minimum-stability": "stable",
+  "version": "1.0-alpha",
   "license": "proprietary",
   "authors": [
     {

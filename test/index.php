@@ -9,6 +9,11 @@
 
         $PDO = new PDO('mysql:host=localhost;dbname=knltb', 'root', '');
 
+        /**
+         * @param string Table name
+         * @param string Primary key of given table
+         * @param PDO $PDO Object
+         */
         $Crud = new Crud("Gebruikers", "ID", $PDO);
 
         $Crud->addField(new Field("text", "Voornaam", "Voornaam"));
