@@ -102,14 +102,15 @@ $Crud->oForm->setSaveBtn("");
 
 ### Table
 
-```php
+
+~~~php
 $Crud->oTable->setInsterBtn("");
 $Crud->oTable->setDeleteBtn("");
 $Crud->oTable->setEditBtn("");
 
 $Crud->oTable->addCssTableClasses("");
 $Crud->oTable->addCssTheadClasses("");
-```
+~~~
 
 ## License
 

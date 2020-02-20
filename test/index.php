@@ -21,6 +21,17 @@
         $Crud->oForm->setCancelBtn("Annuleren");
         $Crud->oForm->setSaveBtn("Opslaan");
         echo $Crud;
+
+        /**
+         *
+         */
+        $Crud->addField();
+        $Crud->addDefaultValue();
+        $Crud->addParam();
+        $Crud->setCanDelete();
+        $Crud->setCanEdit();
+        $Crud->setCanInsert();
+        $Crud->setCssId();
         ?>
     </div>
 </div>
