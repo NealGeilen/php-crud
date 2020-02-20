@@ -6,11 +6,11 @@ Automatic Crud with uses Bootstrap and PDO
 ##Instalation
 
 ```
-composer require phpmailer/phpmailer
+composer require nealg/crud
 ```
 Or add
 ```
-"phpmailer/phpmailer": "1.0"
+"composer require nealg/crud": "dev-master"
 ```
 
 ## Setup
