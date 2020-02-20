@@ -60,7 +60,7 @@ class Crud{
     /**
      * Add GET parameter
      * @param string $key
-     * @param object $value
+     * @param string|int $value
      */
     public function addParam($key, $value){
         $this->aParams[$key] = $value;

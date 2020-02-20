@@ -22,7 +22,7 @@ use Crud\Crud;
 use Crud\Fields\Field;
 require __DIR__ . "/../vendor/autoload.php";
         
-$PDO = new PDO('mysql:host=[HOST];dbname=[TABLENAME]', [USERNAME], [PASSWORD]);
+$PDO = new PDO('mysql:host=[HOST];dbname=[TABLENAME]', "USER", "PASSWORD");
 /**
 * @param string Table name
 * @param string Primary key of given table
@@ -38,14 +38,15 @@ echo $Crud;
 
 ## Options
 
-### Crud class
+### Crud
 
 ```php
+use Crud\Fields\Field;
 /**
 * Add field to crud
 * @param Field add a field to the crud
 */
-$Crud->addField();
+$Crud->addField(new Field());
 
 /**
 * Set default values for records. 
@@ -54,42 +55,60 @@ $Crud->addField();
 * @param string column name
 * @param mixed value of the column 
 */
-$Crud->addDefaultValue(string, mixed);
+$Crud->addDefaultValue("", "");
 
 /**
 * Add a GET parameter to the url. These parameters will be used when the application redirects.
 * @param string key of GET parameter
 * @param string|int value of GET parameter
 */
-$Crud->addParam(string, string|int);
+$Crud->addParam("", "");
 
 /**
 * Control if the user is allowed to delete all records.
 * Default = true
 * @param bool Is user allowed to delete?
 */
-$Crud->setCanDelete(bool);
+$Crud->setCanDelete(true);
 
 /**
 * Control if the user is allowed to edit all records.
 * Default = true
 * @param bool Is user allowed to delete?
 */
-$Crud->setCanEdit(bool);
+$Crud->setCanEdit(true);
 
 /**
 * Control if the user is allowed to edit all records.
 * Default = true
 * @param bool Is user allowed to delete?
 */
-$Crud->setCanInsert(bool);
+$Crud->setCanInsert(true);
 
 /**
 * Css element id. Will be placed at the end of every url redirect. 
 * In this way the user will always see the Crud. 
 * @param string
 */
-$Crud->setCssId(string);
+$Crud->setCssId(true);
+```
+
+### Form
+
+```php
+$Crud->oForm->setCancelBtn("");
+$Crud->oForm->setSaveBtn("");
+```
+
+### Table
+
+```php
+$Crud->oTable->setInsterBtn("");
+$Crud->oTable->setDeleteBtn("");
+$Crud->oTable->setEditBtn("");
+
+$Crud->oTable->addCssTableClasses("");
+$Crud->oTable->addCssTheadClasses("");
 ```
 
 ## License
