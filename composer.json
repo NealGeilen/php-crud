@@ -1,7 +1,7 @@
 {
   "name": "nealg/crud",
   "description": "automatic crud with PDO",
-  "version": "1.0-alpha",
+  "version": "1.0",
   "license": "proprietary",
   "authors": [
     {
