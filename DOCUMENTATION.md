@@ -55,20 +55,83 @@ $Crud->setCanInsert(true);
 $Crud->setCssId(true);
 ```
 
+### Add a field to the Crud
+
+```php
+use Crud\Fields\Field;
+
+/**
+* @param string HTML input type
+* @param string Column name of the field
+* @param string Name of the field that will be shown to the user.
+ */
+$Field = new Field("text", "fistname","firstname");
+
+
+/**
+* Add attributes to the HMTL input element
+* @param string name of the attribute
+* @param string value of the attribute.
+* When the value is NULL only the name of the attribute will be placed in side the element. 
+ */
+$Field->addAttribute("required", null);
+
+
+/**
+* Add field to crud; 
+ */
+$Crud->addField($Field);
+```
+
 ### Form
 
 ```php
+/**
+* Set the value of the rest button for the form 
+* @param string value
+ */
 $Crud->oForm->setCancelBtn("");
+
+/**
+* Set the value of the sumbit button for the form 
+* @param string value
+ */
 $Crud->oForm->setSaveBtn("");
 ```
 
 ### Table
 
 ```php
+/**
+* Set the name of the creat button visible to the user
+* @param string value
+ */
 $Crud->oTable->setInsterBtn("");
+
+/**
+* Set the name of the delete button visible to the user, 
+* This button wil show ad the end of every record.
+* @param string value
+ */
 $Crud->oTable->setDeleteBtn("");
+
+/**
+* Set the name of the edit button visible to the user, 
+* This button wil show ad the end of every record.
+* @param string value
+ */
 $Crud->oTable->setEditBtn("");
 
+
+/**
+* Add custom CSS class names to the table
+* @param string value
+ */
 $Crud->oTable->addCssTableClasses("");
+
+/**
+* Add custom CSS class names to the table head <thead>
+* @param string value
+ */
 $Crud->oTable->addCssTheadClasses("");
 ```

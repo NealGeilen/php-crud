@@ -48,7 +48,7 @@ class Field{
     protected function getAttributes(){
         $sAttributes = "";
         foreach ($this->attributes as $key => $value){
-            $sAttributes.= $key . ((!empty($value)) ? "='{$value}'": null);
+            $sAttributes.= $key . ((!is_null($value)) ? "='{$value}'": null);
         }
         return $sAttributes;
     }
