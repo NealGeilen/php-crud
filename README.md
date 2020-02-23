@@ -11,7 +11,7 @@ composer require nealg/crud
 Or add 
 ```json
 {
-"composer require nealg/crud": "dev-master"
+"composer require nealg/crud": "^1"
 }
 ```
 To your `composer.json` file.
