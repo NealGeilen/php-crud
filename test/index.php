@@ -25,13 +25,6 @@
         /**
          *
          */
-        $Crud->addField();
-        $Crud->addDefaultValue();
-        $Crud->addParam();
-        $Crud->setCanDelete();
-        $Crud->setCanEdit();
-        $Crud->setCanInsert();
-        $Crud->setCssId();
         ?>
     </div>
 </div>

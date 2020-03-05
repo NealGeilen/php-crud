@@ -62,16 +62,6 @@ class Database{
      * @return array
      * @throws CrudException
      */
-    public function fetchAllColumn($statment = "", array $parameters = []){
-        return $this->query($statment,$parameters)->fetchAll(PDO::FETCH_COLUMN);
-    }
-
-    /**
-     * @param string $statment
-     * @param array $parameters
-     * @return array
-     * @throws CrudException
-     */
     public function fetchRow($statment = "", array $parameters = []){
         return $this->query($statment,$parameters)->fetch(PDO::FETCH_ASSOC);
     }

@@ -16,6 +16,7 @@
   },
   "require": {
     "php": "^7",
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "ext-json": "*"
   }
 }
