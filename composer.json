@@ -1,7 +1,7 @@
 {
   "name": "nealg/crud",
   "description": "automatic crud with PDO",
-  "version": "1.0",
+  "version": "1.1",
   "license": "proprietary",
   "authors": [
     {
@@ -17,6 +17,7 @@
   "require": {
     "php": "^7",
     "ext-pdo": "*",
-    "ext-json": "*"
+    "ext-json": "*",
+    "nette/forms": "^3.0"
   }
 }

@@ -2,6 +2,7 @@
 namespace Crud;
 
 use Crud\Fields\Field;
+use Nette\Forms\Controls\Checkbox;
 
 class Form {
 
@@ -21,65 +22,50 @@ class Form {
 
     /**
      * Get all input groups
-     * @return string
+     * @return \Nette\Forms\Form
      */
     protected function getInputGroups(){
-        $sHtml = "";
+        $form = new \Nette\Forms\Form();
+        $form->onRender[] = self::class . '::makeBootstrap4';
         foreach ($this->oCrud->getFields() as $oField){
-            $sHtml .= $this->getInputGroup($oField);
+            $this->getInputGroup($oField, $form);
         }
-        return $sHtml;
+        return $form;
     }
 
     /**
      * Build one input group
      * @param Field $oField
-     * @return string
+     * @return \Nette\Forms\Form
      */
-    protected function getInputGroup(Field $oField){
-        $sInputGroup= "";
+    protected function getInputGroup(Field $oField, \Nette\Forms\Form $form){
         if (!Crud::str_contains("auto_increment",$this->oCrud->aColumnData[$oField->getTag()]["Extra"])){
-            $sInput = $oField->getInput($this->aData, ($oField->getTag() === $this->oCrud->sPrimaryKey && $this->oCrud->sActions === Actions::EDIT), $this->oCrud->aColumnData[$oField->getTag()]["Null"] !== "YES");
-            if (!empty($sInput)){
-                $sInputGroup .= "<div class='form-group col-xl-3 col-md-3 col-sm-6 col-12'>";
-                $sInputGroup .= "<label>{$oField->getName()}</label>";
-                $sInputGroup .= $sInput;
-                $sInputGroup .= "</div>";
-            }
+            $oField->getInput($this->aData, $form, ($oField->getTag() === $this->oCrud->sPrimaryKey && $this->oCrud->sActions === Actions::EDIT), $this->oCrud->aColumnData[$oField->getTag()]["Null"] !== "YES");
         } else {
             $value = (!empty($this->aData)) ? $this->aData[$oField->getTag()] : null;
-            $sInputGroup .="<input type='hidden' name='{$oField->getTag()}' value='{$value}'>";
+            $form->addHidden($oField->getTag(), $value);
         }
-
-        return $sInputGroup;
+        return  $form;
     }
 
     /**
      * Build form HTML
-     * @return string
+     * @return \Nette\Forms\Form
      * @throws Exceptions\CrudException
      */
     public function getForm()
     {
         $sPrimaryKey = null;
-        $aPost = [
-            Actions::EDIT => Actions::UPDATE,
-            Actions::CREATE => Actions::SAVE
-        ];
         if ($this->oCrud->sActions === Actions::EDIT){
             $this->collectRecordData();
             $sPrimaryKey =  $this->aData[$this->oCrud->sPrimaryKey];
         }
-        $sName  = ($this->oCrud->sActions === Actions::CREATE) ? "Add" : "Edit";
-        $sHtml = "<form method='post' action='{$this->oCrud->getUrl(["action" => $aPost[$this->oCrud->sActions]])}' class='bg-light p-3 border-4 border-dark'>";
-        $sHtml .= "<h2>{$sName}</h2>";
-        $sHtml .= "<input type='hidden' value='{$sPrimaryKey}' name='{$this->oCrud->sPrimaryKey}'>";
-        $sHtml .= "<div class='form-row'>";
-        $sHtml .= $this->getInputGroups();
-        $sHtml .= "</div>";
-        $sHtml .= "<div class='btn-group'><input type='submit' class='btn btn-success' value='{$this->sSaveBtn}'><a class='btn btn-danger' href='{$this->oCrud->getUrl()}'>{$this->sCancelBtn}</a></div>";
-        $sHtml .= "</form>";
-        return $sHtml;
+        $form = $this->getInputGroups();
+        $form->addProtection();
+        $form->addHidden($this->oCrud->sPrimaryKey, $sPrimaryKey);
+        $form->addSubmit("_save", $this->sSaveBtn)->setHtmlAttribute("class", "btn btn-primary");
+        $form->addButton("_cancel", $this->sCancelBtn)->setHtmlAttribute("class", "btn btn-danger")->setHtmlAttribute("onclick", "location.replace('{$this->oCrud->getUrl()}')");
+        return $form;
     }
 
     /**
@@ -97,7 +83,44 @@ class Form {
      */
     public function __toString()
     {
-        return $this->getForm();
+        if ($this->oCrud->sActions === Actions::EDIT || $this->oCrud->sActions === Actions::CREATE){
+            return (string)$this->getForm();
+        }
+        return "";
+    }
+
+    public static function makeBootstrap4(\Nette\Forms\Form $form): void
+    {
+        $renderer = $form->getRenderer();
+        $renderer->wrappers['controls']['container'] = 'div class="row"';
+        $renderer->wrappers['pair']['container'] = 'div class="form-group col-md-6 col-12"';
+        $renderer->wrappers['pair']['.error'] = 'has-danger';
+        $renderer->wrappers['control']['description'] = 'span class=form-text';
+        $renderer->wrappers['control']['errorcontainer'] = 'span class=form-control-feedback';
+        $renderer->wrappers['control']['.error'] = 'is-invalid';
+
+        foreach ($form->getControls() as $control) {
+            $type = $control->getOption('type');
+            if ($type === 'button') {
+                $control->getControlPrototype()->addClass(empty($usedPrimary) ? 'btn btn-primary' : 'btn btn-secondary');
+                $usedPrimary = true;
+
+            } elseif (in_array($type, ['text', 'textarea', 'select'], true)) {
+                $control->getControlPrototype()->addClass('form-control');
+
+            } elseif ($type === 'file') {
+                $control->getControlPrototype()->addClass('form-control-file');
+
+            } elseif (in_array($type, ['checkbox', 'radio'], true)) {
+                if ($control instanceof Checkbox) {
+                    $control->getLabelPrototype()->addClass('form-check-label');
+                } else {
+                    $control->getItemLabelPrototype()->addClass('form-check-label');
+                }
+                $control->getControlPrototype()->addClass('form-check-input');
+                $control->getSeparatorPrototype()->setName('div')->addClass('form-check');
+            }
+        }
     }
 
     /**

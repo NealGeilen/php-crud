@@ -1,6 +1,8 @@
 <?php
 namespace Crud\Fields;
 
+use Nette\Forms\Form;
+
 class Dropdown extends Field{
 
     protected $options = [];
@@ -35,24 +37,27 @@ class Dropdown extends Field{
      * @param array $aData
      * @param bool $disable
      * @param bool $required
-     * @return string
+     * @return object
      */
-    public function getInput($aData, $disable = false, $required = true){
+    public function getInput($aData, Form $form,$disable = false, $required = true){
         $value = (!empty($aData)) ? $aData[$this->getTag()] : null;
         $this->addAttribute("value", $value);
-
+        $field = $form->addSelect($this->getTag(), $this->getName(), $this->options);
+        foreach ($this->attributes as $key => $value){
+            $field->setHtmlAttribute($key, ((!is_null($value)) ? $value: null));
+        }
+        if (!isset($this->attributes["placeholder"])){
+            $field->setHtmlAttribute("placeholder", $this->getName());
+        }
         if ($required){
-            $this->addAttribute("required");
+            $field->setRequired(true);
         }
         if ($disable){
-            $this->addAttribute("readonly");
+            $field->setHtmlAttribute("readonly");
         }
-        $sHtml = "<select {$this->getAttributes()}>";
-        foreach ($this->options as $k => $v){
-            $sHtml .= "<option value='".$k."'>" . $v . "</option>";
-        }
-        $sHtml .= "</select>";
-        return $sHtml;
+        $field->setValue($value);
+
+        return $field;
     }
 
     /**

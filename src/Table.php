@@ -114,7 +114,7 @@ class Table {
         if ($this->oCrud->canEdit() || $this->oCrud->canDelete() || $this->oCrud->canInsert()){
             $sHtml .= "<th>";
             //If action is not create or edit add btn for creation
-            if (!isset($_GET["action"]) || ($_GET["action"] !== Actions::CREATE && $_GET["action"] !== Actions::EDIT) && $this->oCrud->canInsert()){
+            if (!isset($this->oCrud->sActions) || ($this->oCrud->sActions !== Actions::CREATE && $this->oCrud->sActions !== Actions::EDIT) && $this->oCrud->canInsert()){
                 $sHtml .= "<a class='btn btn-primary btn-sm' href='{$this->oCrud->getUrl(["action" => "create"])}'>{$this->sInsterBtn}</a>";
             }
             $sHtml .= "</th>";

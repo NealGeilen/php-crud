@@ -20,6 +20,8 @@ class Crud{
     public $sActions = "";
     protected $sHtml = "";
 
+    protected $isLoaded = false;
+
     protected $bCanEdit = true;
     protected $bCanInsert = true;
     protected $bCanDelete =true;
@@ -49,12 +51,22 @@ class Crud{
      */
     public function __toString()
     {
-        $this->CollectColumnData();
-        if (isset($_GET["action"])){
-            $this->Actions();
-        }
+        $this->load();
         $this->sHtml .= (string)$this->oTable;
         return $this->sHtml;
+    }
+
+    /**
+     * @throws Exceptions\CrudException
+     */
+    protected function load($force = false){
+        if (!$this->isLoaded || $force){
+            $this->CollectColumnData();
+            if (isset($_GET["action"])){
+                $this->Actions();
+            }
+            $this->isLoaded = true;
+        }
     }
 
     /**
@@ -240,6 +252,24 @@ class Crud{
     public static function str_contains($needle, $haystack)
     {
         return strpos($haystack, $needle) !== false;
+    }
+
+    /**
+     * @return Table
+     */
+    public function getTable(): Table
+    {
+        $this->load();
+        return $this->oTable;
+    }
+
+    /**
+     * @return Form
+     */
+    public function getForm(): Form
+    {
+        $this->load();
+        return $this->oForm;
     }
 
 

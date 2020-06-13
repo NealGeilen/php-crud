@@ -7,24 +7,22 @@
 
         require __DIR__ . "/../vendor/autoload.php";
 
-        $PDO = new PDO('mysql:host=localhost;dbname=knltb', 'root', '');
+        $PDO = new PDO('mysql:host=localhost;dbname=Arura', 'root', '');
 
         /**
          * @param string Table name
          * @param string Primary key of given table
          * @param PDO $PDO Object
          */
-        $Crud = new Crud("Gebruikers", "ID", $PDO);
-
-        $Crud->addField(new Field("text", "Voornaam", "Voornaam"));
-        $Crud->addField(new Field("text", "Achternaam", "Voornaam"));
+        $Crud = new Crud("tblUsers", "User_Id", $PDO);
+        $drop = new \Crud\Fields\Dropdown( "User_Firstname", "Voornaam");
+        $drop->setOptions(["Neal" => "test"]);
+        $Crud->addField($drop);
+        $Crud->addField(new Field("text", "User_Lastname", "Achternaam"));
         $Crud->oForm->setCancelBtn("Annuleren");
         $Crud->oForm->setSaveBtn("Opslaan");
         echo $Crud;
 
-        /**
-         *
-         */
         ?>
     </div>
 </div>

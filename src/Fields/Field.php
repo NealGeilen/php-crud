@@ -2,6 +2,8 @@
 namespace Crud\Fields;
 
 
+use Nette\Forms\Form;
+
 class Field{
 
     protected $type;
@@ -20,9 +22,6 @@ class Field{
         $this->type =$sType;
         $this->tag = $tag;
         $this->name = $name;
-        $this->addAttribute("type", $this->getType());
-        $this->addAttribute("name", $this->getTag());
-        $this->addAttribute("class", "form-control");
     }
 
     /**
@@ -32,25 +31,29 @@ class Field{
      * @param bool $required
      * @return string
      */
-    public function getInput($aData, $disable = false, $required = true){
+    public function getInput($aData, Form $form,$disable = false, $required = true){
         $value = (!empty($aData)) ? $aData[$this->getTag()] : null;
-        $this->addAttribute("value", $value);
+        $field = null;
+        switch ($this->getType()){
+            case "text":
+                $field = $form->addText($this->getTag(),$this->getName());
+                break;
+        }
+        foreach ($this->attributes as $key => $value){
+            $field->setHtmlAttribute($key, ((!is_null($value)) ? $value: null));
+        }
+
+        if (!isset($this->attributes["placeholder"])){
+            $field->setHtmlAttribute("placeholder", $this->getName());
+        }
 
         if ($required){
-            $this->addAttribute("required");
+            $field->setRequired(true);
         }
         if ($disable){
-            $this->addAttribute("readonly");
+            $field->setHtmlAttribute("readonly");
         }
-        return "<input {$this->getAttributes()}/>";
-    }
-
-    protected function getAttributes(){
-        $sAttributes = "";
-        foreach ($this->attributes as $key => $value){
-            $sAttributes.= $key . ((!is_null($value)) ? "='{$value}'": null);
-        }
-        return $sAttributes;
+        $field->setValue($value);
     }
 
     public function addAttribute($key , $value = null){
