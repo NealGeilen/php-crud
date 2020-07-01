@@ -35,12 +35,28 @@ class Field{
         $value = (!empty($aData)) ? $aData[$this->getTag()] : null;
         $field = null;
         switch ($this->getType()){
+            case "password":
+                $field = $form->addPassword($this->getTag(),$this->getName());
+                break;
+            case "textearea":
+                $field = $form->addTextArea($this->getTag(),$this->getName());
+                break;
+            case "email":
+                $field = $form->addEmail($this->getTag(),$this->getName());
+                break;
+            case "number":
+                $field = $form->addInteger($this->getTag(),$this->getName());
+                break;
+            case "hidden":
+                $field = $form->addHidden($this->getTag(),$this->getName());
+                break;
             case "text":
+            default:
                 $field = $form->addText($this->getTag(),$this->getName());
                 break;
         }
         foreach ($this->attributes as $key => $value){
-            $field->setHtmlAttribute($key, ((!is_null($value)) ? $value: null));
+            $field->setHtmlAttribute($key, ((!($value)) ? $value: true));
         }
 
         if (!isset($this->attributes["placeholder"])){

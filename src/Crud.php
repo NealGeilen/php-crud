@@ -13,6 +13,7 @@ class Crud{
     public $aColumnData = [];
     public $sPrimaryKey = "";
     public $sTable = "";
+    protected $pageUrl = "";
 
     public $oTable;
     public $oForm;
@@ -111,7 +112,7 @@ class Crud{
      */
     public function getUrl($aParams = []){
         $aParas = array_merge($aParams, $this->aParams);
-        return $_SERVER["PHP_SELF"] . (!empty($aParas) ? "?".http_build_query($aParas) : null) . (!empty($this->sCssId) ? "#" . $this->sCssId : null);
+        return (empty($this->getPageUrl())) ? $_SERVER["REDIRECT_URL"] : $this->getPageUrl() . (!empty($aParas) ? "?".http_build_query($aParas) : null) . (!empty($this->sCssId) ? "#" . $this->sCssId : null);
     }
 
     /**
@@ -270,6 +271,22 @@ class Crud{
     {
         $this->load();
         return $this->oForm;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPageUrl(): string
+    {
+        return $this->pageUrl;
+    }
+
+    /**
+     * @param string $pageUrl
+     */
+    public function setPageUrl(string $pageUrl)
+    {
+        $this->pageUrl = $pageUrl;
     }
 
 
